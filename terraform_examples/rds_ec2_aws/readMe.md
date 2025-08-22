@@ -266,3 +266,5 @@ Quit the `psql` prompt with the command `\q`.
 ```bash
 terraform destroy
 ``` 
+
+# END OF README #
