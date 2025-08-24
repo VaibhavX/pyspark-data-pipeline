@@ -38,3 +38,10 @@ variable "db_master_username" {
   description = "The master username for the RDS instance"
   default     = "postgres_admin"
 }
+
+#Variable for notification email for CloudWatch alarms
+variable "notification_email" {
+  type        = string
+  description = "An email to receive the CloudWatch alarm message"
+  default     = "<EMAIL-FOR-MONITORING>"
+}
