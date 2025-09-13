@@ -1,0 +1,43 @@
+#Steps to run the defined configuration in minikube cluster
+
+kubectl get pod
+
+#Create External Configurations in this order
+kubectl apply -f mongo-config.yaml
+kubectl apply -f mongo-secret.yaml
+kubectl apply -f mongo.yaml
+kubectl apply -f webapp.yaml
+
+
+#Gets all components
+kubectl get all
+
+kubectl get configmap
+
+kubectl get secret
+
+
+#you can use help
+kubectl get --help
+
+#Details about a service or a pod
+kubectl describe service webapp-service
+
+kubectl describe pod <name-of-pod>
+
+
+#Logs of the pod
+kubectl logs <name-of-pod> -f
+
+#Know where to access the webapp from browser and look for NodePort
+kubectl get svc
+
+minikube ip
+
+kubectl get node
+
+kubectl get node -o wide #More information
+
+#similarly get additional information on pods and service
+kubectl get pod -o wide 
+kubectl get svc -o wide

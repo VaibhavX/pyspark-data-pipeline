@@ -1,0 +1,52 @@
+#Deployment and Service for Webapp
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+  labels:
+    app: webapp
+spec:
+  replicas: 1 #how many pods to run
+  selector:
+    matchLabels: #matches the labels of the pods
+      app: webapp
+  template: #configuration for the pods
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: #Add the correct image of your webapp here
+        ports:
+        - containerPort: 3000
+        env: #Passing ConfigMap values as environment variables for Webapp to conect to DB
+        - name: USER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: mongo-user
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: mongo-password
+        - name: DB_URL
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: mongo-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  type: NodePort #Exposes the service on each Node's IP at a static port (the NodePort) as an External IP
+  selector: #selects the pods to route traffic to
+    app: webapp #should match the labels of the pods
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000 #port on the pod to route traffic to, same as containerPort
+      nodePort: 30100 #port on each node to expose the service
